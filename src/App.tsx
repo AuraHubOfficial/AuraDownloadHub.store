@@ -98,6 +98,33 @@ const THEME_STORAGE_KEY = 'aura-theme-preference';
 const DISCLAIMER_STORAGE_KEY = 'aura-disclaimer-accepted';
 const ADBLOCK_NOTICE_STORAGE_KEY = 'aura-adblock-notice-dismissed';
 
+// Google AdSense components
+const InContentAd = () => (
+  <div className="ad-container in-content-ad">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5849569842117989" crossOrigin="anonymous"></script>
+    <ins className="adsbygoogle"
+      style={{ display: 'block' }}
+      data-ad-format="fluid"
+      data-ad-layout-key="-fb+5w+4e-db+86"
+      data-ad-client="ca-pub-5849569842117989"
+      data-ad-slot="9210300287"></ins>
+    <script dangerouslySetInnerHTML={{ __html: `(adsbygoogle = window.adsbygoogle || []).push({});` }}></script>
+  </div>
+);
+
+const VerticalAd = ({ position }: { position: 'left' | 'right' }) => (
+  <div className={`vertical-ad-container ${position}-ad`}>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5849569842117989" crossOrigin="anonymous"></script>
+    <ins className="adsbygoogle"
+      style={{ display: 'block' }}
+      data-ad-client="ca-pub-5849569842117989"
+      data-ad-slot="7158852013"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script dangerouslySetInnerHTML={{ __html: `(adsbygoogle = window.adsbygoogle || []).push({});` }}></script>
+  </div>
+);
+
 function App() {
   // State for UI elements
   const [showWarning, setShowWarning] = useState(() => {
@@ -181,6 +208,20 @@ function App() {
       document.body.removeChild(bait);
     }, 100);
   }, []);
+
+  // Initialize Google AdSense
+  useEffect(() => {
+    // Only initialize ads if not showing warning or loading screen
+    if (!showWarning && !loading) {
+      try {
+        if (window.adsbygoogle) {
+          window.adsbygoogle.push({});
+        }
+      } catch (e) {
+        console.error('AdSense error:', e);
+      }
+    }
+  }, [showWarning, loading]);
 
   // Handle ad blocker notice dismissal
   const dismissAdBlockerNotice = (dontShowAgain = false) => {
@@ -601,6 +642,20 @@ function App() {
     setSelectedFile(null);
   }, []);
 
+  // Function to chunk array into groups for ad insertion
+  const chunkArray = (arr: any[], size: number) => {
+    const chunkedArr = [];
+    for (let i = 0; i < arr.length; i += size) {
+      chunkedArr.push(arr.slice(i, i + size));
+    }
+    return chunkedArr;
+  };
+
+  // Chunk the filtered tools into groups of 4 for ad insertion
+  const toolsWithAds = useMemo(() => {
+    return chunkArray(filteredTools, 4);
+  }, [filteredTools]);
+
   return (
     <>
       {/* Custom Cursor */}
@@ -618,6 +673,10 @@ function App() {
           options={particleOptions}
         />
       </div>
+
+      {/* Vertical Ads */}
+      <VerticalAd position="left" />
+      <VerticalAd position="right" />
 
       {/* Ad Blocker Detection Alert */}
       <AnimatePresence>
@@ -1093,7 +1152,7 @@ function App() {
       </AnimatePresence>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 main-content">
         {/* Search Section */}
         <div className="flex flex-col items-center mb-8">
           <motion.div
@@ -1152,75 +1211,84 @@ function App() {
           </div>
         </div>
 
-        {/* Tools Grid */}
+        {/* Tools Grid with Ads */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          className="tools-grid-container"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
         >
-          {filteredTools.map((tool) => (
-            <motion.div
-              key={tool.id}
-              className={`glass-card rounded-lg overflow-hidden flex flex-col h-full ${
-                tool.isClip ? 'clips-card' : ''
-              }`}
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ type: 'spring', damping: 12 }}
-              whileHover={{ y: -5 }}
-              layout
-            >
-              <div className="p-4 flex-grow">
-                <h3 className="text-xl font-bold mb-2 text-white">
-                  {tool.name}
-                </h3>
-
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {tool.tags.map((tag: string, index: number) => (
-                    <span key={index} className="tag">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="p-4 mt-auto border-t border-gray-700">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm text-gray-300 flex items-center">
-                    <Info size={14} className="mr-1 text-info-icon" />
-                    Size: {tool.size}
-                  </span>
-                </div>
-
-                {tool.isClip ? (
-                  <div className="flex gap-2">
-                    <button
-                      className="preview-btn flex items-center gap-1 flex-1 justify-center"
-                      onClick={() => handleClipPreview(tool)}
-                    >
-                      <Play size={16} />
-                      <span>Preview</span>
-                    </button>
-                    <button
-                      className="download-btn flex items-center gap-1 flex-1 justify-center"
-                      onClick={() => handleDownload(tool.link)}
-                    >
-                      <Download size={16} />
-                      <span>Download All</span>
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    className="download-btn flex items-center gap-1 w-full justify-center"
-                    onClick={() => handleDownload(tool.link)}
+          {toolsWithAds.map((chunk, chunkIndex) => (
+            <React.Fragment key={`chunk-${chunkIndex}`}>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {chunk.map((tool: any) => (
+                  <motion.div
+                    key={tool.id}
+                    className={`glass-card rounded-lg overflow-hidden flex flex-col h-full ${
+                      tool.isClip ? 'clips-card' : ''
+                    }`}
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ type: 'spring', damping: 12 }}
+                    whileHover={{ y: -5 }}
+                    layout
                   >
-                    <Download size={16} />
-                    <span>Download</span>
-                  </button>
-                )}
+                    <div className="p-4 flex-grow">
+                      <h3 className="text-xl font-bold mb-2 text-white">
+                        {tool.name}
+                      </h3>
+
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {tool.tags.map((tag: string, index: number) => (
+                          <span key={index} className="tag">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="p-4 mt-auto border-t border-gray-700">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-sm text-gray-300 flex items-center">
+                          <Info size={14} className="mr-1 text-info-icon" />
+                          Size: {tool.size}
+                        </span>
+                      </div>
+
+                      {tool.isClip ? (
+                        <div className="flex gap-2">
+                          <button
+                            className="preview-btn flex items-center gap-1 flex-1 justify-center"
+                            onClick={() => handleClipPreview(tool)}
+                          >
+                            <Play size={16} />
+                            <span>Preview</span>
+                          </button>
+                          <button
+                            className="download-btn flex items-center gap-1 flex-1 justify-center"
+                            onClick={() => handleDownload(tool.link)}
+                          >
+                            <Download size={16} />
+                            <span>Download All</span>
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          className="download-btn flex items-center gap-1 w-full justify-center"
+                          onClick={() => handleDownload(tool.link)}
+                        >
+                          <Download size={16} />
+                          <span>Download</span>
+                        </button>
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
               </div>
-            </motion.div>
+              
+              {/* Insert in-content ad after each chunk except the last one */}
+              {chunkIndex < toolsWithAds.length - 1 && <InContentAd />}
+            </React.Fragment>
           ))}
         </motion.div>
       </div>
