@@ -21,8 +21,6 @@ import {
   Info,
   Palette,
   ArrowUp,
-  AlertTriangle,
-  Shield,
   Check,
   Play,
   Folder,
@@ -42,9 +40,6 @@ const mainCategories = [
   'Clips',
   'Scripts',
 ];
-
-// All unique tags from tools
-const allTags = Array.from(new Set(toolsData.flatMap((tool) => tool.tags)));
 
 // Discord server link
 const DISCORD_SERVER_LINK = 'https://discord.gg/ErHZJJ7Tdh';
@@ -96,39 +91,10 @@ const themeOptions = [
 // Local storage keys
 const THEME_STORAGE_KEY = 'aura-theme-preference';
 const DISCLAIMER_STORAGE_KEY = 'aura-disclaimer-accepted';
-const ADBLOCK_NOTICE_STORAGE_KEY = 'aura-adblock-notice-dismissed';
-
-// Google AdSense components
-const InContentAd = () => (
-  <div className="ad-container in-content-ad">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5849569842117989" crossOrigin="anonymous"></script>
-    <ins className="adsbygoogle"
-      style={{ display: 'block' }}
-      data-ad-format="fluid"
-      data-ad-layout-key="-fb+5w+4e-db+86"
-      data-ad-client="ca-pub-5849569842117989"
-      data-ad-slot="9210300287"></ins>
-    <script dangerouslySetInnerHTML={{ __html: `(adsbygoogle = window.adsbygoogle || []).push({});` }}></script>
-  </div>
-);
-
-const VerticalAd = ({ position }: { position: 'left' | 'right' }) => (
-  <div className={`vertical-ad-container ${position}-ad`}>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5849569842117989" crossOrigin="anonymous"></script>
-    <ins className="adsbygoogle"
-      style={{ display: 'block' }}
-      data-ad-client="ca-pub-5849569842117989"
-      data-ad-slot="7158852013"
-      data-ad-format="auto"
-      data-full-width-responsive="true"></ins>
-    <script dangerouslySetInnerHTML={{ __html: `(adsbygoogle = window.adsbygoogle || []).push({});` }}></script>
-  </div>
-);
 
 function App() {
   // State for UI elements
   const [showWarning, setShowWarning] = useState(() => {
-    // Check if user has previously accepted the disclaimer
     return localStorage.getItem(DISCLAIMER_STORAGE_KEY) !== 'true';
   });
   const [dontShowAgain, setDontShowAgain] = useState(false);
@@ -141,9 +107,7 @@ function App() {
   const [showFaq, setShowFaq] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showThemeSelector, setShowThemeSelector] = useState(false);
-  const [showAdBlocker, setShowAdBlocker] = useState(false);
   const [currentTheme, setCurrentTheme] = useState(() => {
-    // Get saved theme from localStorage or use default
     const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
     if (savedTheme) {
       try {
@@ -155,7 +119,7 @@ function App() {
     return themeOptions[0];
   });
 
-  // New state for clips preview modal
+  // State for clips preview modal
   const [showClipsPreview, setShowClipsPreview] = useState(false);
   const [selectedClip, setSelectedClip] = useState<any>(null);
   const [selectedFile, setSelectedFile] = useState<any>(null);
@@ -164,245 +128,63 @@ function App() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const cursorTrailerRef = useRef<HTMLDivElement>(null);
   const particleBgRef = useRef<HTMLDivElement>(null);
-  const adBlockDetectionRef = useRef<HTMLDivElement>(null);
 
   // Initialize particles with memoization for better performance
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadSlim(engine);
   }, []);
 
-  // Ad blocker detection
-  useEffect(() => {
-    // Check if the user has already dismissed the notice
-    if (localStorage.getItem(ADBLOCK_NOTICE_STORAGE_KEY) === 'true') {
-      return;
-    }
-
-    // Create a bait element to detect ad blockers
-    const bait = document.createElement('div');
-    bait.className =
-      'ad-placement ad-banner adsbox pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad';
-    bait.style.cssText =
-      'position: absolute; left: -10000px; top: -10000px; width: 1px; height: 1px;';
-    bait.textContent = '&nbsp;';
-    document.body.appendChild(bait);
-
-    // Check if the ad blocker detection element is hidden or removed
-    setTimeout(() => {
-      const isAdBlockerActive =
-        bait.offsetHeight === 0 ||
-        bait.offsetWidth === 0 ||
-        bait.clientHeight === 0 ||
-        bait.clientWidth === 0 ||
-        window.getComputedStyle(bait).display === 'none' ||
-        window.getComputedStyle(bait).visibility === 'hidden';
-
-      // Also check if Linkvertise script is blocked
-      const isLinkvertiseBlocked = typeof window.linkvertise !== 'function';
-
-      if (isAdBlockerActive || isLinkvertiseBlocked) {
-        setShowAdBlocker(true);
-      }
-
-      // Clean up
-      document.body.removeChild(bait);
-    }, 100);
-  }, []);
-
-  // Initialize Google AdSense
-  useEffect(() => {
-    // Only initialize ads if not showing warning or loading screen
-    if (!showWarning && !loading) {
-      try {
-        if (window.adsbygoogle) {
-          window.adsbygoogle.push({});
-        }
-      } catch (e) {
-        console.error('AdSense error:', e);
-      }
-    }
-  }, [showWarning, loading]);
-
-  // Handle ad blocker notice dismissal
-  const dismissAdBlockerNotice = (dontShowAgain = false) => {
-    setShowAdBlocker(false);
-    if (dontShowAgain) {
-      localStorage.setItem(ADBLOCK_NOTICE_STORAGE_KEY, 'true');
-    }
-  };
-
-  // Memoize particle options for better performance
-  const particleOptions = useMemo(() => {
-    return {
-      fullScreen: {
-        enable: true,
-        zIndex: -1,
-      },
-      fpsLimit: 60,
-      particles: {
-        number: {
-          value: 50, // Reduced from 80 for better performance
-          density: {
-            enable: true,
-            value_area: 800,
-          },
-        },
-        color: {
-          value: [currentTheme.primary, currentTheme.accent],
-        },
-        shape: {
-          type: 'circle',
-        },
-        opacity: {
-          value: 0.5,
-          random: true,
-          anim: {
-            enable: true,
-            speed: 0.5, // Reduced for better performance
-            opacity_min: 0.1,
-            sync: false,
-          },
-        },
-        size: {
-          value: 3,
-          random: true,
-          anim: {
-            enable: true,
-            speed: 1, // Reduced for better performance
-            size_min: 0.3,
-            sync: false,
-          },
-        },
-        line_linked: {
-          enable: true,
-          distance: 150,
-          color: currentTheme.primary,
-          opacity: 0.2,
-          width: 1,
-        },
-        move: {
-          enable: true,
-          speed: 0.8, // Reduced for better performance
-          direction: 'none',
-          random: true,
-          straight: false,
-          out_mode: 'out',
-          bounce: false,
-          attract: {
-            enable: true,
-            rotateX: 600,
-            rotateY: 1200,
-          },
-        },
-      },
-      interactivity: {
-        detect_on: 'canvas',
-        events: {
-          onhover: {
-            enable: true,
-            mode: 'grab',
-          },
-          onclick: {
-            enable: true,
-            mode: 'push',
-          },
-          resize: true,
-        },
-        modes: {
-          grab: {
-            distance: 140,
-            line_linked: {
-              opacity: 0.5,
-            },
-          },
-          push: {
-            particles_nb: 2, // Reduced from 4 for better performance
-          },
-        },
-      },
-      retina_detect: true,
-      background: {
-        color: 'transparent',
-        image: '',
-        position: '50% 50%',
-        repeat: 'no-repeat',
-        size: 'cover',
-      },
-    };
-  }, [currentTheme.primary, currentTheme.accent]);
-
   // Handle warning acceptance
   const handleAcceptWarning = () => {
     setShowWarning(false);
     setLoading(true);
 
-    // Save preference if "Don't show again" is checked
     if (dontShowAgain) {
       localStorage.setItem(DISCLAIMER_STORAGE_KEY, 'true');
     }
 
-    // Simulate loading
     let progress = 0;
     const interval = setInterval(() => {
-      progress += 2; // Faster loading (increment by 2 instead of 1)
+      progress += 2;
       setLoadingPercentage(progress);
 
       if (progress >= 100) {
         clearInterval(interval);
         setTimeout(() => {
           setLoading(false);
-        }, 300); // Reduced from 500ms
+        }, 300);
       }
-    }, 15); // Reduced from 20ms
+    }, 15);
   };
 
   // Apply theme to CSS variables
   useEffect(() => {
-    document.documentElement.style.setProperty(
-      '--primary',
-      currentTheme.primary
-    );
+    document.documentElement.style.setProperty('--primary', currentTheme.primary);
     document.documentElement.style.setProperty('--accent', currentTheme.accent);
-    document.documentElement.style.setProperty(
-      '--background',
-      currentTheme.background
-    );
-    document.documentElement.style.setProperty(
-      '--primary-rgb',
-      currentTheme.primaryRgb
-    );
-    document.documentElement.style.setProperty(
-      '--accent-rgb',
-      currentTheme.accentRgb
-    );
+    document.documentElement.style.setProperty('--background', currentTheme.background);
+    document.documentElement.style.setProperty('--primary-rgb', currentTheme.primaryRgb);
+    document.documentElement.style.setProperty('--accent-rgb', currentTheme.accentRgb);
 
-    // Derived colors
     const primaryDark = adjustColor(currentTheme.primary, -20);
     document.documentElement.style.setProperty('--primary-dark', primaryDark);
 
-    // Save theme preference to localStorage
     localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify(currentTheme));
   }, [currentTheme]);
 
   // Helper function to adjust color brightness
   const adjustColor = (color: string, amount: number): string => {
-    return (
-      '#' +
-      color.replace(/^#/, '').replace(/../g, (color) => {
-        const value = Math.min(255, Math.max(0, parseInt(color, 16) + amount));
-        return value.toString(16).padStart(2, '0');
-      })
-    );
+    return '#' + color.replace(/^#/, '').replace(/../g, (color) => {
+      const value = Math.min(255, Math.max(0, parseInt(color, 16) + amount));
+      return value.toString(16).padStart(2, '0');
+    });
   };
 
   // Create star particles for enhanced background
   useEffect(() => {
     if (!particleBgRef.current) return;
 
-    // Clear existing stars
     particleBgRef.current.innerHTML = '';
 
-    // Create new stars based on current theme
     const createStars = () => {
       const starsCount = 100;
       const container = particleBgRef.current;
@@ -412,19 +194,13 @@ function App() {
         const star = document.createElement('div');
         star.classList.add('particle-star');
 
-        // Random position
         const x = Math.random() * 100;
         const y = Math.random() * 100;
-
-        // Random size
         const size = Math.random() * 3 + 1;
-
-        // Random animation properties
         const duration = Math.random() * 5 + 3;
         const delay = Math.random() * 5;
         const opacity = Math.random() * 0.7 + 0.3;
 
-        // Apply styles
         star.style.left = `${x}%`;
         star.style.top = `${y}%`;
         star.style.width = `${size}px`;
@@ -433,7 +209,6 @@ function App() {
         star.style.setProperty('--delay', `${delay}s`);
         star.style.setProperty('--opacity', `${opacity}`);
 
-        // Set color based on theme (randomly choose primary or accent)
         if (Math.random() > 0.5) {
           star.style.background = currentTheme.primary;
         } else {
@@ -443,22 +218,15 @@ function App() {
         container.appendChild(star);
       }
 
-      // Add floating orbs for enhanced effect
       for (let i = 0; i < 5; i++) {
         const orb = document.createElement('div');
         orb.classList.add('floating-orb');
 
-        // Random position
         const x = Math.random() * 100;
         const y = Math.random() * 100;
-
-        // Random size
         const size = Math.random() * 200 + 100;
-
-        // Random animation delay
         const delay = Math.random() * 5;
 
-        // Apply styles
         orb.style.left = `${x}%`;
         orb.style.top = `${y}%`;
         orb.style.width = `${size}px`;
@@ -521,7 +289,6 @@ function App() {
       }
     };
 
-    // Disable right-click
     const handleContextMenu = (e: MouseEvent) => {
       e.preventDefault();
       return false;
@@ -551,14 +318,13 @@ function App() {
       }
     };
 
-    // Use passive listener for better performance
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Disable background interaction when disclaimer is shown
   useEffect(() => {
-    if (showWarning || showAdBlocker || showClipsPreview) {
+    if (showWarning || showClipsPreview) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -567,10 +333,10 @@ function App() {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [showWarning, showAdBlocker, showClipsPreview]);
+  }, [showWarning, showClipsPreview]);
 
   const scrollToTop = () => {
-    const scrollStep = -window.scrollY / 25; // Smoother scrolling
+    const scrollStep = -window.scrollY / 25;
     const scrollInterval = setInterval(() => {
       if (window.scrollY !== 0) {
         window.scrollBy(0, scrollStep);
@@ -612,9 +378,7 @@ function App() {
     if (link) {
       window.open(link, '_blank');
     } else {
-      alert(
-        'Download link is not available at the moment. Please try again later.'
-      );
+      alert('Download link is not available at the moment. Please try again later.');
     }
   }, []);
 
@@ -642,19 +406,105 @@ function App() {
     setSelectedFile(null);
   }, []);
 
-  // Function to chunk array into groups for ad insertion
-  const chunkArray = (arr: any[], size: number) => {
-    const chunkedArr = [];
-    for (let i = 0; i < arr.length; i += size) {
-      chunkedArr.push(arr.slice(i, i + size));
-    }
-    return chunkedArr;
-  };
-
-  // Chunk the filtered tools into groups of 4 for ad insertion
-  const toolsWithAds = useMemo(() => {
-    return chunkArray(filteredTools, 4);
-  }, [filteredTools]);
+  // Memoize particle options for better performance
+  const particleOptions = useMemo(() => {
+    return {
+      fullScreen: {
+        enable: true,
+        zIndex: -1,
+      },
+      fpsLimit: 60,
+      particles: {
+        number: {
+          value: 50,
+          density: {
+            enable: true,
+            value_area: 800,
+          },
+        },
+        color: {
+          value: [currentTheme.primary, currentTheme.accent],
+        },
+        shape: {
+          type: 'circle',
+        },
+        opacity: {
+          value: 0.5,
+          random: true,
+          anim: {
+            enable: true,
+            speed: 0.5,
+            opacity_min: 0.1,
+            sync: false,
+          },
+        },
+        size: {
+          value: 3,
+          random: true,
+          anim: {
+            enable: true,
+            speed: 1,
+            size_min: 0.3,
+            sync: false,
+          },
+        },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: currentTheme.primary,
+          opacity: 0.2,
+          width: 1,
+        },
+        move: {
+          enable: true,
+          speed: 0.8,
+          direction: 'none',
+          random: true,
+          straight: false,
+          out_mode: 'out',
+          bounce: false,
+          attract: {
+            enable: true,
+            rotateX: 600,
+            rotateY: 1200,
+          },
+        },
+      },
+      interactivity: {
+        detect_on: 'canvas',
+        events: {
+          onhover: {
+            enable: true,
+            mode: 'grab',
+          },
+          onclick: {
+            enable: true,
+            mode: 'push',
+          },
+          resize: true,
+        },
+        modes: {
+          grab: {
+            distance: 140,
+            line_linked: {
+              opacity: 0.5,
+            },
+          },
+          push: {
+            particles_nb: 2,
+          },
+        },
+      },
+      retina_detect: true,
+      background: {
+        color: 'transparent',
+        image: '',
+        position: '50% 50%',
+        repeat: 'no-repeat',
+        size: 'cover',
+      },
+    };
+  }, [currentTheme.primary, currentTheme.accent]);
 
   return (
     <>
@@ -673,111 +523,6 @@ function App() {
           options={particleOptions}
         />
       </div>
-
-      {/* Vertical Ads */}
-      <VerticalAd position="left" />
-      <VerticalAd position="right" />
-
-      {/* Ad Blocker Detection Alert */}
-      <AnimatePresence>
-        {showAdBlocker && (
-          <motion.div
-            className="adblock-modal"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="adblock-content"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: 'spring', damping: 15 }}
-            >
-              <div className="adblock-header">
-                <motion.div
-                  className="adblock-icon-container"
-                  initial={{ scale: 0, rotate: -180 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ delay: 0.2, type: 'spring', damping: 10 }}
-                >
-                  <AlertTriangle size={32} className="adblock-icon" />
-                </motion.div>
-                <motion.h2
-                  className="adblock-title"
-                  initial={{ y: -20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  Ad Blocker Detected
-                </motion.h2>
-              </div>
-
-              <motion.div
-                className="adblock-body"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.4 }}
-              >
-                <p className="adblock-message">
-                  We've detected that you're using an ad blocker or tracker
-                  blocker. Our site relies on ads to keep our content free.
-                  Please disable your ad blocker to continue using our site.
-                </p>
-
-                <div className="adblock-steps">
-                  <h3>How to disable your ad blocker:</h3>
-                  <ol>
-                    <li>
-                      Click on the ad blocker icon in your browser's toolbar
-                    </li>
-                    <li>
-                      Select "Pause on this site" or "Disable for this website"
-                    </li>
-                    <li>Refresh the page to continue</li>
-                  </ol>
-                </div>
-
-                <div className="adblock-checkbox-container">
-                  <label className="adblock-checkbox-label">
-                    <input
-                      type="checkbox"
-                      onChange={(e) => setDontShowAgain(e.target.checked)}
-                      className="adblock-checkbox"
-                    />
-                    <span className="adblock-checkbox-custom">
-                      {dontShowAgain && <Check size={12} />}
-                    </span>
-                    <span>Don't show this message again</span>
-                  </label>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="adblock-footer"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5 }}
-              >
-                <button
-                  className="adblock-btn adblock-btn-secondary"
-                  onClick={() => dismissAdBlockerNotice(dontShowAgain)}
-                >
-                  Continue Anyway
-                </button>
-                <button
-                  className="adblock-btn adblock-btn-primary"
-                  onClick={() => {
-                    dismissAdBlockerNotice(dontShowAgain);
-                    window.location.reload();
-                  }}
-                >
-                  I've Disabled My Ad Blocker
-                </button>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Enhanced Disclaimer Modal */}
       <AnimatePresence>
@@ -814,7 +559,7 @@ function App() {
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.2, type: 'spring', damping: 12 }}
                 >
-                  <Shield size={40} className="disclaimer-main-icon" />
+                  <Check size={40} className="disclaimer-main-icon" />
                 </motion.div>
 
                 <motion.p
@@ -1152,7 +897,7 @@ function App() {
       </AnimatePresence>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-8 main-content">
+      <div className="container mx-auto px-4 py-8">
         {/* Search Section */}
         <div className="flex flex-col items-center mb-8">
           <motion.div
@@ -1171,7 +916,7 @@ function App() {
             <Search className="search-icon" size={20} />
           </motion.div>
 
-          <motion.div
+           <motion.div
             className="flex items-center gap-2 cursor-pointer"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -1211,84 +956,75 @@ function App() {
           </div>
         </div>
 
-        {/* Tools Grid with Ads */}
+        {/* Tools Grid */}
         <motion.div
-          className="tools-grid-container"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
         >
-          {toolsWithAds.map((chunk, chunkIndex) => (
-            <React.Fragment key={`chunk-${chunkIndex}`}>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {chunk.map((tool: any) => (
-                  <motion.div
-                    key={tool.id}
-                    className={`glass-card rounded-lg overflow-hidden flex flex-col h-full ${
-                      tool.isClip ? 'clips-card' : ''
-                    }`}
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ type: 'spring', damping: 12 }}
-                    whileHover={{ y: -5 }}
-                    layout
-                  >
-                    <div className="p-4 flex-grow">
-                      <h3 className="text-xl font-bold mb-2 text-white">
-                        {tool.name}
-                      </h3>
+          {filteredTools.map((tool: any) => (
+            <motion.div
+              key={tool.id}
+              className={`glass-card rounded-lg overflow-hidden flex flex-col h-full ${
+                tool.isClip ? 'clips-card' : ''
+              }`}
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ type: 'spring', damping: 12 }}
+              whileHover={{ y: -5 }}
+              layout
+            >
+              <div className="p-4 flex-grow">
+                <h3 className="text-xl font-bold mb-2 text-white">
+                  {tool.name}
+                </h3>
 
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {tool.tags.map((tag: string, index: number) => (
-                          <span key={index} className="tag">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="p-4 mt-auto border-t border-gray-700">
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-sm text-gray-300 flex items-center">
-                          <Info size={14} className="mr-1 text-info-icon" />
-                          Size: {tool.size}
-                        </span>
-                      </div>
-
-                      {tool.isClip ? (
-                        <div className="flex gap-2">
-                          <button
-                            className="preview-btn flex items-center gap-1 flex-1 justify-center"
-                            onClick={() => handleClipPreview(tool)}
-                          >
-                            <Play size={16} />
-                            <span>Preview</span>
-                          </button>
-                          <button
-                            className="download-btn flex items-center gap-1 flex-1 justify-center"
-                            onClick={() => handleDownload(tool.link)}
-                          >
-                            <Download size={16} />
-                            <span>Download All</span>
-                          </button>
-                        </div>
-                      ) : (
-                        <button
-                          className="download-btn flex items-center gap-1 w-full justify-center"
-                          onClick={() => handleDownload(tool.link)}
-                        >
-                          <Download size={16} />
-                          <span>Download</span>
-                        </button>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {tool.tags.map((tag: string, index: number) => (
+                    <span key={index} className="tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-              
-              {/* Insert in-content ad after each chunk except the last one */}
-              {chunkIndex < toolsWithAds.length - 1 && <InContentAd />}
-            </React.Fragment>
+
+              <div className="p-4 mt-auto border-t border-gray-700">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-sm text-gray-300 flex items-center">
+                    <Info size={14} className="mr-1 text-info-icon" />
+                    Size: {tool.size}
+                  </span>
+                </div>
+
+                {tool.isClip ? (
+                  <div className="flex gap-2">
+                    <button
+                      className="preview-btn flex items-center gap-1 flex-1 justify-center"
+                      onClick={() => handleClipPreview(tool)}
+                    >
+                      <Play size={16} />
+                      <span>Preview</span>
+                    </button>
+                    <button
+                      className="download-btn flex items-center gap-1 flex-1 justify-center"
+                      onClick={() => handleDownload(tool.link)}
+                    >
+                      <Download size={16} />
+                      <span>Download All</span>
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    className="download-btn flex items-center gap-1 w-full justify-center"
+                    onClick={() => handleDownload(tool.link)}
+                  >
+                    <Download size={16} />
+                    <span>Download</span>
+                  </button>
+                )}
+              </div>
+            </motion.div>
           ))}
         </motion.div>
       </div>
