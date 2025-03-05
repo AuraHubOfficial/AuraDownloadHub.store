@@ -57,7 +57,7 @@ Explore, download, and start building today. Feel free to **star** this reposito
 
 ### ⚖️ License
 
-This repository is licensed under the [MIT License](LICENSE).
+This repository is licensed under the [License](LICENSE.md).
 
 ---
 
