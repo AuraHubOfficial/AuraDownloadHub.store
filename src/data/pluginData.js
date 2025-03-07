@@ -209,5 +209,22 @@ export const pluginData = [
         thumbnail: "" 
       }
     ]
+  },
+  {
+    id: 70,
+    name: "Odometer",
+    tags: ["Plugin", "Odometer", "After Effect"],
+    size: "81.3 MB",
+    downloads: 0,
+    link: "https://direct-link.net/1302991/odometer", // Download All
+    isClip: true,
+    files: [
+      { 
+        name: "Odometer Preview.mp4", 
+        size: "Release Video Of Odometer..",
+        link: "https://drive.google.com/file/d/1qbVFdPaZtZphfqop9CUfqm5FkyZy0ai2/preview", // Preview Download
+        thumbnail: "" 
+      }
+    ]
   }
 ];
