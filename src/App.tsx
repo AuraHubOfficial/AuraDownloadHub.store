@@ -1011,7 +1011,7 @@ function App() {
                       onClick={() => handleDownload(tool.link)}
                     >
                       <Download size={16} />
-                      <span>Download All</span>
+                      <span>Download</span>
                     </button>
                   </div>
                 ) : (

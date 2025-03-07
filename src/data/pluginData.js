@@ -175,5 +175,22 @@ export const pluginData = [
     size: "20 MB", 
     downloads: 0,
     link: "https://link-center.net/1302991/rowbyte-all-plugins"
+  },
+  {
+    id: 68,
+    name: "Displacer Pro",
+    tags: ["Plugin", "Displacer Pro", "WIN", "MAC"],
+    size: "9.2 MB",
+    downloads: 0,
+    link: "https://direct-link.net/1302991/displacer-pro-v161", // Download All
+    isClip: true,
+    files: [
+      { 
+        name: "Intro.mp4", 
+        size: "Release Video Of Displacer Pro..",
+        link: "https://drive.google.com/file/d/1b17PfGWGfQmxIAXkthxAEEibl47is9_W/preview", // Preview Download
+        thumbnail: "https://i.imgur.com/Kst4Op6.jpeg" 
+      }
+    ]
   }
 ];
