@@ -143,5 +143,29 @@ export const pluginData = [
     size: "343 MB", 
     downloads: 0,
     link: "https://link-hub.net/1302991/video-copilot-all-plugins"
+  },
+  {
+    id: 64,
+    name: "Boris FX CrumplePop Pro 2025",
+    tags: ["Plugin", "Boris FX", "After Effect"],
+    size: "877 MB", 
+    downloads: 0,
+    link: "https://direct-link.net/1302991/boris-fx-crumplepop-pro"
+  },
+  {
+    id: 65,
+    name: "ReVisionFX All Plugins",
+    tags: ["Plugin", "ReVisionFX", "After Effect"],
+    size: "222 MB", 
+    downloads: 0,
+    link: "https://link-hub.net/1302991/revisionfx-all-plugins"
+  },
+  {
+    id: 66,
+    name: "Boris FX Mocha Pro AE PR 2025",
+    tags: ["Plugin", "Boris FX", "After Effect", "Premiere Pro"],
+    size: "803 MB", 
+    downloads: 0,
+    link: "https://link-target.net/1302991/boris-fx-mocha-pro-ae-pr"
   }
 ];
