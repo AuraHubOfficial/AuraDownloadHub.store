@@ -15,7 +15,7 @@ export const toolsData = [
   ...leaksData,
   ...clipsData,
   ...scriptsData,
-  ...templateData
+  ...templateData,
 ];
 
 // Export individual data arrays for specific use cases
