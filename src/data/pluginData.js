@@ -186,10 +186,27 @@ export const pluginData = [
     isClip: true,
     files: [
       { 
-        name: "Intro.mp4", 
+        name: "Displacer Pro Preview.mp4", 
         size: "Release Video Of Displacer Pro..",
         link: "https://drive.google.com/file/d/1b17PfGWGfQmxIAXkthxAEEibl47is9_W/preview", // Preview Download
         thumbnail: "https://i.imgur.com/Kst4Op6.jpeg" 
+      }
+    ]
+  },
+  {
+    id: 69,
+    name: "L3tt3rM4pp3r2",
+    tags: ["Plugin", "L3tt3rM4pp3r2", "After Effect"],
+    size: "3 MB",
+    downloads: 0,
+    link: "https://link-target.net/1302991/l3tt3rm4pp3r2", // Download All
+    isClip: true,
+    files: [
+      { 
+        name: "ASII TEXT GARBLED ART PREVIEW.mp4", 
+        size: "Release Video Of L3tt3rM4pp3r2..",
+        link: "https://drive.google.com/file/d/1iLB-cuMtucehYYe-azk_ENhR2zOQ2YuS/preview", // Preview Download
+        thumbnail: "" 
       }
     ]
   }
