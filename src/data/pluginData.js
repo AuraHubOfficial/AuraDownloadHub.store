@@ -135,5 +135,13 @@ export const pluginData = [
     size: "3.56 GB",
     downloads: 0,
     link: "https://link-target.net/1302991/motion-pulse-black-box"
+  },
+  {
+    id: 63,
+    name: "Video Copilot All Plugins",
+    tags: ["Plugin", "Video Copilot", "After Effect"],
+    size: "343 MB", 
+    downloads: 0,
+    link: "https://link-hub.net/1302991/video-copilot-all-plugins"
   }
 ];
