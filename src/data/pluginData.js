@@ -172,7 +172,7 @@ export const pluginData = [
     id: 67,
     name: "RowByte All Plugins",
     tags: ["Plugin", "RowByte", "After Effect"],
-    size: "803 MB", 
+    size: "20 MB", 
     downloads: 0,
     link: "https://link-center.net/1302991/rowbyte-all-plugins"
   }
