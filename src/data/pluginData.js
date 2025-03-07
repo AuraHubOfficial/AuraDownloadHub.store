@@ -167,5 +167,13 @@ export const pluginData = [
     size: "803 MB", 
     downloads: 0,
     link: "https://link-target.net/1302991/boris-fx-mocha-pro-ae-pr"
+  },
+  {
+    id: 67,
+    name: "RowByte All Plugins",
+    tags: ["Plugin", "RowByte", "After Effect"],
+    size: "803 MB", 
+    downloads: 0,
+    link: "https://link-center.net/1302991/rowbyte-all-plugins"
   }
 ];
