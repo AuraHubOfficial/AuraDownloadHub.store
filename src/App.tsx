@@ -39,6 +39,7 @@ const mainCategories = [
   'Leaks',
   'Clips',
   'Scripts',
+  'Template'
 ];
 
 // Discord server link

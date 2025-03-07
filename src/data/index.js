@@ -5,6 +5,7 @@ import { extensionData } from './extensionData';
 import { leaksData } from './leaksData';
 import { clipsData } from './clipsData';
 import { scriptsData } from './scriptsData';
+import { templateData } from './templateData';
 
 // Combine all data into a single array for the main application
 export const toolsData = [
@@ -13,7 +14,8 @@ export const toolsData = [
   ...extensionData,
   ...leaksData,
   ...clipsData,
-  ...scriptsData
+  ...scriptsData,
+  ...templateData
 ];
 
 // Export individual data arrays for specific use cases
@@ -23,5 +25,6 @@ export {
   extensionData,
   leaksData,
   clipsData,
-  scriptsData
+  scriptsData,
+  templateData
 };
