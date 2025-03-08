@@ -226,5 +226,13 @@ export const pluginData = [
         thumbnail: "" 
       }
     ]
+  },
+  {
+    id: 71,
+    name: "Plugin You Must Have",
+    tags: ["Plugin", "Aura", "After Effect"],
+    size: "17 MB", 
+    downloads: 0,
+    link: "https://link-target.net/1302991/plugin-everything"
   }
 ];
