@@ -207,5 +207,13 @@ export const softwareData = [
     size: "150 MB",
     downloads: 0,
     link: "https://direct-link.net/1302991/capcut-android"
+  },
+  {
+    id: 72,
+    name: "Wondershare Recoverit",
+    tags: ["Software", "Wondershare", "Win"],
+    size: "160 MB",
+    downloads: 0,
+    link: "https://link-target.net/1302991/wondershare-recoverit"
   }
 ];
