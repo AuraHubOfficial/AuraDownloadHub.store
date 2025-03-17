@@ -234,5 +234,22 @@ export const pluginData = [
     size: "17 MB", 
     downloads: 0,
     link: "https://link-target.net/1302991/plugin-everything"
+  },
+  {
+    id: 73,
+    name: "Light Wrap",
+    tags: ["Plugin", "Light Wrap", "After Effect"],
+    size: "28 KB",
+    downloads: 0,
+    link: "https://direct-link.net/1302991/create-light-warp", // Download All
+    isClip: true,
+    files: [
+      { 
+        name: "Tutorial Light Wrap.mp4", 
+        size: "5.2 GB",
+        link: "https://drive.google.com/file/d/1xucQ-SzsSbrsNC_IhEKp0KiyRnd6-fIi/preview?embedded=true", // Preview Download
+        thumbnail: "https://i.imgur.com/oHkfTcC.jpeg" 
+      }
+    ]
   }
 ];
