@@ -251,5 +251,22 @@ export const pluginData = [
         thumbnail: "https://i.imgur.com/oHkfTcC.jpeg" 
       }
     ]
+  },
+  {
+    id: 74,
+    name: "Good Bye Greenscreen",
+    tags: ["Plugin", "Good Bye Greenscreen", "After Effect", "Mac"],
+    size: "75 MB",
+    downloads: 0,
+    link: "https://link-target.net/1302991/good-bye-greenscreen", // Download All
+    isClip: true,
+    files: [
+      { 
+        name: "Tutorial Good Bye Greenscreen.mp4", 
+        size: "5.2 GB",
+        link: "https://drive.google.com/file/d/1mKaCxiV1lpb-sZHzVlH4p36E5jqgf2_Y/preview?embedded=true", // Preview Download
+        thumbnail: "https://i.imgur.com/yypYslt.jpeg" 
+      }
+    ]
   }
 ];
