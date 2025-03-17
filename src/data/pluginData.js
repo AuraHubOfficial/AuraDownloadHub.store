@@ -246,7 +246,7 @@ export const pluginData = [
     files: [
       { 
         name: "Tutorial Light Wrap.mp4", 
-        size: "5.2 GB",
+        size: "Tutorial Light Wrap",
         link: "https://drive.google.com/file/d/1xucQ-SzsSbrsNC_IhEKp0KiyRnd6-fIi/preview?embedded=true", // Preview Download
         thumbnail: "https://i.imgur.com/oHkfTcC.jpeg" 
       }
@@ -263,7 +263,7 @@ export const pluginData = [
     files: [
       { 
         name: "Tutorial Good Bye Greenscreen.mp4", 
-        size: "5.2 GB",
+        size: "Tutorial Good Bye Greenscreen",
         link: "https://drive.google.com/file/d/1mKaCxiV1lpb-sZHzVlH4p36E5jqgf2_Y/preview?embedded=true", // Preview Download
         thumbnail: "https://i.imgur.com/yypYslt.jpeg" 
       }
