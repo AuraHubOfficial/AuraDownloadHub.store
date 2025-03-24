@@ -848,7 +848,7 @@ function App() {
                             src={selectedFile.link}
                             width="600px"
                             height="380px"
-                            allow=""
+                            allow="autoplay"
                             className="clips-preview-video"
                           />
                         ) : (
