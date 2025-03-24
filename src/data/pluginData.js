@@ -268,5 +268,22 @@ export const pluginData = [
         thumbnail: "https://i.imgur.com/yypYslt.jpeg" 
       }
     ]
+  },
+  {
+    id: 75,
+    name: "Neat Video Pro",
+    tags: ["Plugin", "Neat Video", "After Effect"],
+    size: "21.5 MB",
+    downloads: 0,
+    link: "https://direct-link.net/1302991/neat-video-pro-v6", // Download All
+    isClip: true,
+    files: [
+      { 
+        name: "Neat Video Pro.mp4", 
+        size: "Neat Video Pro V6.0.0 is a popular video noise reduction AE plug-in in the industry. It can effectively remove the particle noise of the picture with remarkable results. The plug-in has excellent noise reduction technology and efficient rendering, which is recognized by many users.",
+        link: "https://i.imgur.com/HndhyZ2.mp4", // Preview Download
+        thumbnail: "https://i.imgur.com/BciQ1Vr.jpeg" 
+      }
+    ]
   }
 ];
