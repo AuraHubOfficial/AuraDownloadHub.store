@@ -768,9 +768,8 @@ function App() {
                 {themeOptions.map((theme, index) => (
                   <div
                     key={index}
-                    className={`theme-option ${
-                      currentTheme.name === theme.name ? 'active' : ''
-                    }`}
+                    className={`theme-option ${currentTheme.name === theme.name ? 'active' : ''
+                      }`}
                     onClick={() => changeTheme(theme)}
                     style={{
                       background: `linear-gradient(45deg, ${theme.primary}, ${theme.accent})`,
@@ -825,9 +824,8 @@ function App() {
                     {selectedClip.files.map((file: any, index: number) => (
                       <div
                         key={index}
-                        className={`clips-preview-file-item ${
-                          selectedFile === file ? 'active' : ''
-                        }`}
+                        className={`clips-preview-file-item ${selectedFile === file ? 'active' : ''
+                          }`}
                         onClick={() => handleFileSelect(file)}
                       >
                         <div className="clips-preview-file-name">
@@ -917,7 +915,7 @@ function App() {
             <Search className="search-icon" size={20} />
           </motion.div>
 
-           <motion.div
+          <motion.div
             className="flex items-center gap-2 cursor-pointer"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -934,9 +932,8 @@ function App() {
           </motion.div>
 
           <div
-            className={`advanced-search w-full max-w-3xl ${
-              showAdvancedSearch ? 'open' : ''
-            }`}
+            className={`advanced-search w-full max-w-3xl ${showAdvancedSearch ? 'open' : ''
+              }`}
           >
             <div className="glass p-4 rounded-lg mt-3">
               <h3 className="text-white text-sm mb-2">Filter by category:</h3>
@@ -944,9 +941,8 @@ function App() {
                 {mainCategories.map((tag) => (
                   <div
                     key={tag}
-                    className={`filter-tag ${
-                      selectedTags.includes(tag) ? 'active' : ''
-                    }`}
+                    className={`filter-tag ${selectedTags.includes(tag) ? 'active' : ''
+                      }`}
                     onClick={() => toggleTag(tag)}
                   >
                     {tag}
@@ -967,9 +963,8 @@ function App() {
           {filteredTools.map((tool: any) => (
             <motion.div
               key={tool.id}
-              className={`glass-card rounded-lg overflow-hidden flex flex-col h-full ${
-                tool.isClip ? 'clips-card' : ''
-              }`}
+              className={`glass-card rounded-lg overflow-hidden flex flex-col h-full ${tool.isClip ? 'clips-card' : ''
+                }`}
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ type: 'spring', damping: 12 }}
