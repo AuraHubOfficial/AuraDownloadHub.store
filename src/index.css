@@ -11,6 +11,29 @@
   --accent-rgb: 0, 194, 255;
 }
 
+@layer utilities {
+  .animate-optimized {
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    perspective: 1000px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+img {
+  content-visibility: auto;
+}
+
+.loading {
+  @apply animate-pulse bg-gray-200 dark:bg-gray-700;
+}
+
 body {
   font-family: 'Inter', sans-serif;
   background-color: var(--background);
@@ -723,7 +746,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000 ;
+  z-index: 1000;
 }
 
 .theme-content {
@@ -777,7 +800,7 @@ body {
 }
 
 .theme-option::before {
-   content: '';
+  content: '';
   position: absolute;
   top: 0;
   left: 0;

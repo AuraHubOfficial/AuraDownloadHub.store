@@ -281,7 +281,7 @@ export const pluginData = [
       { 
         name: "Neat Video Pro.mp4", 
         size: "Neat Video Pro V6.0.0 is a popular video noise reduction AE plug-in in the industry. It can effectively remove the particle noise of the picture with remarkable results. The plug-in has excellent noise reduction technology and efficient rendering, which is recognized by many users.",
-        link: "https://i.imgur.com/HndhyZ2.mp4", // Preview Download
+        link: "https://drive.google.com/file/d/1feRojiC0_9RUcb3XVn2nN6V01PtzFMhp/preview?embedded=true", // Preview Download
         thumbnail: "https://i.imgur.com/BciQ1Vr.jpeg" 
       }
     ]
