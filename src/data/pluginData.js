@@ -2,7 +2,7 @@
 export const pluginData = [
   {
     id: 25,
-    name: "Red Giant Complete 2025",
+    name: "Red Giant Complete 2025.2",
     tags: ["Plugin", "Red Giant", "After Effect"],
     size: "2.8 GB",
     downloads: 0,
@@ -285,5 +285,13 @@ export const pluginData = [
         thumbnail: "https://i.imgur.com/BciQ1Vr.jpeg" 
       }
     ]
+  },
+  {
+    id: 76,
+    name: "Red Giant Complete 2025.4",
+    tags: ["Plugin", "Red Giant", "After Effect"],
+    size: "1.2 GB",
+    downloads: 0,
+    link: "https://direct-link.net/1302991/red-giant-complete-20254"
   }
 ];
