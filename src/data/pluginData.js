@@ -293,5 +293,22 @@ export const pluginData = [
     size: "1.2 GB",
     downloads: 0,
     link: "https://direct-link.net/1302991/red-giant-complete-20254"
+  },
+  {
+    id: 77,
+    name: "Retro Dither v1.11",
+    tags: ["Plugin", "Retro Dither", "After Effect"],
+    size: "1 MB",
+    downloads: 0,
+    link: "https://link-center.net/1302991/retrodither-v111-win", // Download All
+    isClip: true,
+    files: [
+      { 
+        name: "Retro Dither v1.11.mp4", 
+        size: "If you have played Subor, you may have played Super Mario, Contra, 90 Tanks, MapleStory, Shadow Legend, etc. in your childhood. They are very familiar to you. Maybe due to the technology or ability at that time, the game screen may be very rough. You can see that the screen is composed of many square pixels with the naked eye, but it does not affect our fun at all. This RetroDither plug-in can simulate the rough bit pixel screen effect in AE. The lookae.com plug-in also contains many presets and supports GPU acceleration.",
+        link: "https://drive.google.com/file/d/1GZ4oDzYQ8AeVctb3BDyvyJuXjpVkBBRk/preview?embedded=true", // Preview Download
+        thumbnail: "https://i.imgur.com/LlZ89PV.jpeg" 
+      }
+    ]
   }
 ];
