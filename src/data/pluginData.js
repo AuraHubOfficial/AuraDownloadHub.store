@@ -324,7 +324,7 @@ export const pluginData = [
         name: "Deep Glow V1.6.6", 
         size: "Don't get excited! This is not an update to V2, but an update to V1. Some users are not used to using V2, and some AE templates are made with the lower version V1, which brings some troubles to the work, so here is an update to V1.6.6, which is compatible with the new version of AE 2025.2 software.",
         link: "https://drive.google.com/file/d/1e-TB1GmgFpRVdwOSqTj61CLZdxUjxctD/preview?embedded=true", // Preview Download
-        thumbnail: "https://drive.google.com/file/d/1e-TB1GmgFpRVdwOSqTj61CLZdxUjxctD/preview?embedded=true" 
+        thumbnail: "" 
       }
     ]
   }
