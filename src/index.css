@@ -1237,3 +1237,34 @@ a, button, input, select, textarea, [role="button"], [tabindex]:not([tabindex="-
     max-width: 100%;
   }
 }
+
+.password-btn {
+  background: linear-gradient(45deg, var(--primary), var(--accent));
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  cursor: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.3);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.password-btn:hover {
+  box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.5);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.password-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.password-btn:hover svg {
+  transform: scale(1.1);
+}

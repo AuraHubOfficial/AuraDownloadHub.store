@@ -327,5 +327,22 @@ export const pluginData = [
         thumbnail: "" 
       }
     ]
+  },
+  {
+    id: 79,
+    name: "Mask & Layer Splitter",
+    tags: ["Plugin", "Mask & Layer", "After Effect"],
+    size: "8 MB",
+    downloads: 0,
+    link: "", // Download All
+    isClip: true,
+    files: [
+      { 
+        name: "Mask & Layer Splitter", 
+        size: "An all-in-one solution to easily separate masks into layers, rename, crop precompositions, and apply layer offsets. Mask & Layer Splitter is an essential tool for After Effects users who want to simplify complex tasks and increase their productivity. This script provides a suite of functions designed to easily handle common layer and mask management tasks. The script's intuitive interface features a set of buttons, each dedicated to a specific task, ensuring a seamless user experience. Whether you're working on a simple animation or a complex project, Mask & Layer Splitter helps you manage layers and masks more efficiently, allowing you to focus on creativity rather than tedious tasks.",
+        link: "https://drive.google.com/file/d/1YGS7XxhGIGKna5jbLy3X-6PsveyVcXKI/preview?embedded=true", // Preview Download
+        thumbnail: "" 
+      }
+    ]
   }
 ];
