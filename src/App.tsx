@@ -26,6 +26,7 @@ import {
   Folder,
   ArrowLeft,
   Eye,
+  Copy,
 } from 'lucide-react';
 
 // Import data from the data directory
@@ -44,6 +45,9 @@ const mainCategories = [
 
 // Discord server link
 const DISCORD_SERVER_LINK = 'https://discord.gg/ErHZJJ7Tdh';
+
+// Password
+const PASSWORD = 'aura';
 
 // Theme options
 const themeOptions = [
@@ -125,6 +129,9 @@ function App() {
   const [selectedClip, setSelectedClip] = useState<any>(null);
   const [selectedFile, setSelectedFile] = useState<any>(null);
 
+  // New state for password copy animation
+  const [showCopySuccess, setShowCopySuccess] = useState(false);
+
   // Refs for custom cursor
   const cursorRef = useRef<HTMLDivElement>(null);
   const cursorTrailerRef = useRef<HTMLDivElement>(null);
@@ -156,6 +163,13 @@ function App() {
         }, 300);
       }
     }, 15);
+  };
+
+  // Handle password copy
+  const handleCopyPassword = () => {
+    navigator.clipboard.writeText(PASSWORD);
+    setShowCopySuccess(true);
+    setTimeout(() => setShowCopySuccess(false), 2000);
   };
 
   // Apply theme to CSS variables
@@ -509,6 +523,47 @@ function App() {
 
   return (
     <>
+      {/* Password Button */}
+      <motion.div
+        className="fixed top-4 right-4 z-50"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
+        <motion.button
+          className="password-btn"
+          onClick={handleCopyPassword}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <AnimatePresence mode="wait">
+            {showCopySuccess ? (
+              <motion.div
+                key="success"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0 }}
+                className="flex items-center gap-2"
+              >
+                <Check size={16} />
+                <span>Copied!</span>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="copy"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0 }}
+                className="flex items-center gap-2"
+              >
+                <Copy size={16} />
+                <span>Password: {PASSWORD}</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.button>
+      </motion.div>
+
       {/* Custom Cursor */}
       <div ref={cursorRef} className="custom-cursor"></div>
       <div ref={cursorTrailerRef} className="cursor-trailer"></div>
