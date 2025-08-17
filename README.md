@@ -51,7 +51,6 @@ Explore, download, and start building today. Feel free to **star** this reposito
 ### 📢 Connect with Us
 
 - **Website:** [AuraDownloadHub.store](https://AuraDownloadHub.store)
-- **Discord:** [Join our community](https://discord.gg/ErHZJJ7Tdh)
 
 ---
 
